@@ -1,0 +1,6 @@
+server {
+    server_name cms.suricates.nl;
+    root /devstar/sites/admin/public;
+    passenger_enabled on;
+    passenger_app_env development;
+}
