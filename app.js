@@ -97,10 +97,15 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 			        		answer.screen_name = "@" + tresults.screen_name;
 			        	});
 			        } else {
+			        	if( "@" + tresults.screen_name !== result[0].screen_name ){
+			        		r.table('accounts').get( result[0].id ).update({screen_name: "@" + tresults.screen_name }).run( connection, function(err, result){
+			        	  		console.log('updated screen_name')      		
+			        		});
+			        	}
 			        	answer.account_id = result[0].id;
 			        	answer.is_admin = result[0].is_admin;
 			        	answer.is_app   = result[0].is_app;
-			        	answer.screen_name = result[0].screen_name;
+			        	answer.screen_name = "@" + tresults.screen_name;
 			        }
 
 					var token = jwt.sign( answer, config.privateKey );
