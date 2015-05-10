@@ -1,3 +1,6 @@
+// loading the config
+var config = require('./config.json');
+
 // OAUTH
 var OAuth = require('oauth').OAuth
   , oauth = new OAuth(
@@ -100,13 +103,13 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 			        	answer.screen_name = result[0].screen_name;
 			        }
 
-					var token = jwt.sign( answer, 'superdupergeheim2000' );
+					var token = jwt.sign( answer, config.privateKey );
 					if( answer.is_app ){
 						res.send( "Your JSON WEB TOKEN is:<br>" + token );	
 					} else if( answer.is_admin ){
-						res.redirect('http://localhost:3005/#' + token ); 
+						res.redirect( config.adminUrl + token ); 
 					} else {
-						res.send( "If it would exist, we would redirect you to meerkats.com/#" + token );
+						res.send( "If it would exist, we would redirect you to " + config.clientUrl + token );
 						// res.redirect('/'); // You might actually want to redirect!		
 					}
 					
