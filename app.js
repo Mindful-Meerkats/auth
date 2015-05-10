@@ -9,7 +9,7 @@ var OAuth = require('oauth').OAuth
       "Ria1i9itfX5hRJQlwPCnjz1Ln",
       "RQfqYQYMXhvFqp19j5PX5JA2p3uySMU84PhQAUSShUxPWgb64G",
       "1.0",
-      "http://localhost:4444/auth/twitter/callback",
+      "http://auth.suricates.nl/auth/twitter/callback",
       "HMAC-SHA1"
     );
 
@@ -44,7 +44,7 @@ var jwt = require('jsonwebtoken');
 
 // request twitter authorisation
 app.get('/auth/twitter', function(req, res) {
- 
+
   oauth.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
     if (error) {
       console.log(error);
@@ -59,16 +59,16 @@ app.get('/auth/twitter', function(req, res) {
       res.redirect('https://twitter.com/oauth/authenticate?oauth_token='+oauth_token)
     }
   });
- 
-});  
+
+});
 
 // callback for twitter authorisation
 app.get('/auth/twitter/callback', function(req, res, next) {
- 
+
   if (req.session.oauth) {
     req.session.oauth.verifier = req.query.oauth_verifier;
     var oauth_data = req.session.oauth;
- 
+
     oauth.getOAuthAccessToken(
       oauth_data.token,
       oauth_data.token_secret,
@@ -80,7 +80,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
         }
         else {
           req.session.oauth.access_token = oauth_access_token;
-          req.session.oauth.access_token_secret = oauth_access_token_secret;           
+          req.session.oauth.access_token_secret = oauth_access_token_secret;
 
 
           // authentification successfull
@@ -88,7 +88,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 			    if (err) throw err;
 			    cursor.toArray(function(err, result) {
 			    	var answer = {};
-			        if (err) throw err;			        
+			        if (err) throw err;
 			        if( result.length === 0 ){
 			        	r.table('accounts').insert([{ is_admin: false, is_app: false, screen_name: "@" + tresults.screen_name, twitterid: tresults.user_id }]).run(connection, function(err, result) {
 			        		answer.account_id = result.generated_keys[0];
@@ -99,7 +99,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 			        } else {
 			        	if( "@" + tresults.screen_name !== result[0].screen_name ){
 			        		r.table('accounts').get( result[0].id ).update({screen_name: "@" + tresults.screen_name }).run( connection, function(err, result){
-			        	  		console.log('updated screen_name')      		
+			        	  		console.log('updated screen_name')
 			        		});
 			        	}
 			        	answer.account_id = result[0].id;
@@ -110,20 +110,20 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 
 					var token = jwt.sign( answer, config.privateKey );
 					if( answer.is_app ){
-						res.send( "Your JSON WEB TOKEN is:<br>" + token );	
+						res.send( "Your JSON WEB TOKEN is:<br>" + token );
 					} else if( answer.is_admin ){
-						res.redirect( config.adminUrl + token ); 
+						res.redirect( config.adminUrl + token );
 					} else {
 						res.send( "If it would exist, we would redirect you to " + config.clientUrl + token );
-						// res.redirect('/'); // You might actually want to redirect!		
+						// res.redirect('/'); // You might actually want to redirect!
 					}
-					
-				
-			       
-			    });			    
-				
-		  });          
-          
+
+
+
+			    });
+
+		  });
+
         }
       }
     );
@@ -131,7 +131,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
   else {
     res.redirect('/auth/twitter'); // Redirect to login page
   }
- 
+
 });
 
 app.listen(4444);
