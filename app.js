@@ -90,11 +90,11 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 			    	var answer = {};
 			        if (err) throw err;			        
 			        if( result.length === 0 ){
-			        	r.table('accounts').insert([{ is_admin: false, is_app: false, screen_name: tresults.screen_name, twitterid: tresults.user_id }]).run(connection, function(err, result) {
+			        	r.table('accounts').insert([{ is_admin: false, is_app: false, screen_name: "@" + tresults.screen_name, twitterid: tresults.user_id }]).run(connection, function(err, result) {
 			        		answer.account_id = result.generated_keys[0];
 			        		answer.is_admin = false;
 			        		answer.is_app   = false;
-			        		answer.screen_name = tresults.screen_name;
+			        		answer.screen_name = "@" + tresults.screen_name;
 			        	});
 			        } else {
 			        	answer.account_id = result[0].id;
@@ -124,7 +124,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
     );
   }
   else {
-    res.redirect('/login'); // Redirect to login page
+    res.redirect('/auth/twitter'); // Redirect to login page
   }
  
 });
