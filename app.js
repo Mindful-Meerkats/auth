@@ -2,8 +2,8 @@
 var config = require('./config.json');
 
 // OAUTH
-var OAuth = require('oauth').OAuth
-  , oauth = new OAuth(
+var OAuth = require('oauth').OAuth,
+oauth = new OAuth(
       "https://api.twitter.com/oauth/request_token",
       "https://api.twitter.com/oauth/access_token",
       "Ria1i9itfX5hRJQlwPCnjz1Ln",
@@ -23,7 +23,7 @@ var session = require('express-session');
 var uuid = require('node-uuid');
 app.use(session({
   genid: function(req) {
-    return uuid.v4() // use UUIDs for session IDs
+    return uuid.v4(); // use UUIDs for session IDs
   },
   secret: 'keyboard cat',
   resave: false,
@@ -56,7 +56,7 @@ app.get('/auth/twitter', function(req, res) {
         token_secret: oauth_token_secret
       };
       console.log(req.session.oauth);
-      res.redirect('https://twitter.com/oauth/authenticate?oauth_token='+oauth_token)
+      res.redirect('https://twitter.com/oauth/authenticate?oauth_token='+oauth_token);
     }
   });
 
@@ -84,7 +84,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 
 
           // authentification successfull
-          	r.table('accounts').filter({twitterid: tresults.user_id}).limit(1).run(connection, function(err, cursor) {
+          r.table('accounts').filter({twitterid: tresults.user_id}).limit(1).run(connection, function(err, cursor) {
 			    if (err) throw err;
 			    cursor.toArray(function(err, result) {
 			    	var answer = {};
@@ -99,7 +99,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 			        } else {
 			        	if( "@" + tresults.screen_name !== result[0].screen_name ){
 			        		r.table('accounts').get( result[0].id ).update({screen_name: "@" + tresults.screen_name }).run( connection, function(err, result){
-			        	  		console.log('updated screen_name')
+			        	  		console.log('updated screen_name');
 			        		});
 			        	}
 			        	answer.account_id = result[0].id;
@@ -110,7 +110,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 
 					var token = jwt.sign( answer, config.privateKey );
 					if( answer.is_app ){
-						res.send( "Your JSON WEB TOKEN is:<br>" + token );
+						res.json( {"token": token } );
 					} else if( answer.is_admin ){
 						res.redirect( config.adminUrl + token );
 					} else {
