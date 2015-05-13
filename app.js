@@ -114,8 +114,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 					} else if( answer.is_admin ){
 						res.redirect( config.adminUrl + token );
 					} else {
-						res.send( "If it would exist, we would redirect you to " + config.clientUrl + token );
-						// res.redirect('/'); // You might actually want to redirect!
+            res.redirect( config.clientUrl + token );
 					}
 
 
