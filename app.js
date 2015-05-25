@@ -9,7 +9,7 @@ oauth = new OAuth(
       "Ria1i9itfX5hRJQlwPCnjz1Ln",
       "RQfqYQYMXhvFqp19j5PX5JA2p3uySMU84PhQAUSShUxPWgb64G",
       "1.0",
-      "http://auth.suricates.nl/auth/twitter/callback",
+      config.callbackTwitter,
       "HMAC-SHA1"
     );
 
@@ -47,7 +47,6 @@ app.get('/auth/twitter', function(req, res) {
 
   oauth.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
     if (error) {
-      console.log(error);
       res.send("Authentication Failed!");
     }
     else {
@@ -55,7 +54,6 @@ app.get('/auth/twitter', function(req, res) {
         token: oauth_token,
         token_secret: oauth_token_secret
       };
-      console.log(req.session.oauth);
       res.redirect('https://twitter.com/oauth/authenticate?oauth_token='+oauth_token);
     }
   });
@@ -114,7 +112,7 @@ app.get('/auth/twitter/callback', function(req, res, next) {
 					} else if( answer.is_admin ){
 						res.redirect( config.adminUrl + token );
 					} else {
-            res.redirect( config.clientUrl + token );
+                        res.redirect( config.clientUrl + token );
 					}
 
 

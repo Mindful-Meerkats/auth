@@ -1,5 +1,6 @@
 {
 	"privateKey" : "BbZJjyoXAdr8BUZuiKKARWimKfrSmQ6fv8kZ7OFfc",
-	"adminUrl"   : "http://localhost:4444",
-	"clientUrl"  : "http://localhost:4567/#"
+	"adminUrl"   : "http://cms.suricates.nl/#",
+	"clientUrl"  : "http://webclient.suricates.nl/#",
+    "callbackTwitter" : "http://auth.suricates.nl/auth/twitter/callback" 
 }
