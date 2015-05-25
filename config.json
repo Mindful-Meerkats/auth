@@ -1,5 +1,5 @@
 {
 	"privateKey" : "BbZJjyoXAdr8BUZuiKKARWimKfrSmQ6fv8kZ7OFfc",
-	"adminUrl"   : "http://cms.suricates.nl/#",
+	"adminUrl"   : "http://localhost:4444",
 	"clientUrl"  : "http://localhost:4567/#"
 }
