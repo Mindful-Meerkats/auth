@@ -2,5 +2,9 @@
 	"privateKey" : "BbZJjyoXAdr8BUZuiKKARWimKfrSmQ6fv8kZ7OFfc",
 	"adminUrl"   : "http://cms.suricates.nl/#",
 	"clientUrl"  : "http://webclient.suricates.nl/#",
-    "callbackTwitter" : "http://auth.suricates.nl/auth/twitter/callback" 
+    "adminLoginUrl"   : "http://cms.suricates.nl/login",
+	"clientLoginUrl"  : "http://webclient.suricates.nl/login",
+    "callbackTwitterAdmin" : "http://auth.suricates.nl/admin/twitter/callback" ,
+    "callbackTwitterWebClient" : "http://auth.suricates.nl/webclient/twitter/callback",
+    "callbackTwitterApp" : "http://auth.suricates.nl/app/twitter/callback" 
 }
